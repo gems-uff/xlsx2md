@@ -11,18 +11,19 @@ print('|---')
 for index, row in df.iterrows():
     date = pd.to_datetime(row['Data'], errors='coerce').strftime('%d/%m/%Y')
     activity = row['Atividade']
+    task = row['Entrega']
 
     if activity:
         if activity.startswith(('Prova', 'Segunda chamada', 'Verificação suplementar')):
             color = 'blue'
-        elif activity.startswith('Apresentação de trabalho'):
+        elif activity.startswith(('Apresentação de trabalho', 'Vista de prova')):
             color = 'green'
-        elif activity.startswith(('Sem aula', 'Vista de prova')):
+        elif activity.startswith('Sem aula'):
             color = 'red'
         else:
             color = None
 
         if color:
-            print(f'| {date} | <span style="color:{color}">{activity}</span>')
+            print(f'| {date} | <span style="color:{color}">{activity}</span> | {task}')
         else:
-            print(f'| {date} | Aula')
+            print(f'| {date} | Aula | {task}')
