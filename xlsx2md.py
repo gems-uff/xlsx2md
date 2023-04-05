@@ -13,7 +13,7 @@ for index, row in df.iterrows():
     activity = row['Atividade']
     task = row['Entrega']
 
-    if activity:
+    if not pd.isnull(activity) and activity.strip():
         if activity.startswith(('Prova', 'Segunda chamada', 'Verificação suplementar')):
             color = 'blue'
         elif activity.startswith(('Apresentação de trabalho', 'Vista de prova')):
