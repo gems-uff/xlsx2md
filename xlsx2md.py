@@ -14,11 +14,17 @@ for index, row in df.iterrows():
     task = row['Entrega']
 
     if not pd.isnull(activity) and activity.strip():
+        # Blue for exams
         if activity.startswith(('Prova', 'Segunda chamada', 'Verificação suplementar')):
             color = 'blue'
-        elif activity.startswith(('Apresentação de trabalho', 'Vista de prova')):
+        # Green for assignment presentations
+        elif activity.startswith('Apresentações de trabalhos'):
             color = 'green'
-        elif activity.startswith('Sem aula'):
+        # Black for activities that should not be highlighted, but should be shown
+        elif activity.startswith('Apresentações de artigos'):
+            color = 'black'
+        # Red for optional activities and no class
+        elif activity.startswith(('Sem aula', 'Vista de prova', 'Vista de avaliações')):
             color = 'red'
         else:
             color = None
