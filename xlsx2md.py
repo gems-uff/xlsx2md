@@ -8,6 +8,7 @@ print('{: style="border-collapse: collapse; width: 100%; text-align: center;" bo
 print('| Data | Atividade | Entrega')
 print('|---')
 
+previous = None
 for index, row in df.iterrows():
     date = pd.to_datetime(row['Data'], errors='coerce').strftime('%d/%m/%Y')
     activity = row['Atividade']
@@ -29,7 +30,21 @@ for index, row in df.iterrows():
         else:
             color = None
 
-        if color:
-            print(f'| {date} | <span style="color:{color}">{activity}</span> | {task}')
-        else:
-            print(f'| {date} | Aula | {task}')
+        current = {
+            'date': date, 
+            'activity': f'<span style="color:{color}">{activity}</span>' if color else 'Aula', 
+            'task': task
+        }
+
+        if previous:
+            if current['date'] == previous['date']:
+                if current['activity'] != previous['activity']:
+                    current['activity'] = f'{previous["activity"]} <br/> { current["activity"]}'
+                if current['task'] != previous['task']:
+                    current['task'] = f'{previous["task"]} <br/> { current["task"]}'
+            else:
+                print(f'| {previous["date"]} | {previous["activity"]} | {previous["task"]}')
+        
+        previous = current
+
+print(f'| {previous["date"]} | {previous["activity"]} | {previous["task"]}')
